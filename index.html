@@ -1,0 +1,1300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tabloria — Turn CSV files into WordPress displays</title>
+  <meta name="description" content="Tabloria turns CSV data into reusable WordPress displays: searchable listings, product catalogs, directories, schedules, pricing tables, and simple data tables." />
+
+  <style>
+    :root {
+      --bg: #f8f7ff;
+      --bg-soft: #f1efff;
+      --surface: #ffffff;
+      --surface-2: #fbfbff;
+      --text: #171526;
+      --muted: #5f5a70;
+      --muted-2: #7d7890;
+      --line: #ddd8f5;
+      --line-strong: #c9c1f1;
+      --primary: #3525d3;
+      --primary-2: #4f46e5;
+      --primary-soft: #ebe8ff;
+      --primary-soft-2: #f3f1ff;
+      --success-soft: #e7fff2;
+      --shadow: 0 24px 70px rgba(39, 31, 113, 0.14);
+      --shadow-soft: 0 12px 36px rgba(39, 31, 113, 0.09);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% -10%, rgba(79, 70, 229, 0.18), transparent 28rem),
+        radial-gradient(circle at 90% 8%, rgba(191, 219, 254, 0.5), transparent 24rem),
+        var(--bg);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(248, 247, 255, 0.82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(221, 216, 245, 0.82);
+    }
+
+    .nav-inner {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 780;
+      letter-spacing: -0.03em;
+      font-size: 20px;
+      color: var(--primary);
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), #675cff);
+      box-shadow: 0 10px 24px rgba(53, 37, 211, 0.24);
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 760;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 14px 34px rgba(53, 37, 211, 0.24);
+    }
+
+    .btn-secondary {
+      color: var(--primary);
+      background: white;
+      border-color: var(--line-strong);
+      box-shadow: 0 8px 22px rgba(39, 31, 113, 0.07);
+    }
+
+    .btn-ghost {
+      color: var(--muted);
+      background: transparent;
+      border-color: rgba(201, 193, 241, 0.9);
+    }
+
+    .hero {
+      padding: 86px 0 66px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 54px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+      color: var(--primary);
+      font-weight: 760;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--primary);
+      box-shadow: 0 0 0 5px rgba(53, 37, 211, 0.12);
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 740px;
+      font-size: clamp(44px, 6vw, 74px);
+      line-height: 0.94;
+      letter-spacing: -0.075em;
+      font-weight: 850;
+    }
+
+    .lead {
+      margin: 24px 0 0;
+      max-width: 660px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 21px);
+      line-height: 1.55;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .hero-points {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 28px;
+      max-width: 600px;
+    }
+
+    .hero-point {
+      padding: 11px 13px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .browser {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .browser-top {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #d6d1e8;
+    }
+
+    .dot:first-child {
+      background: #ffddd8;
+    }
+
+    .browser img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .float-card {
+      position: absolute;
+      left: -28px;
+      bottom: 38px;
+      width: 246px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .float-card strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .float-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      padding: 86px 0;
+    }
+
+    .section.alt {
+      background: rgba(255, 255, 255, 0.55);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      text-align: center;
+      margin: 0 auto 42px;
+      max-width: 760px;
+    }
+
+    .kicker {
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      font-weight: 820;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+      font-weight: 840;
+    }
+
+    .section-head p {
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 680px;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .value-card {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 10px 30px rgba(39, 31, 113, 0.04);
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    .value-card h3,
+    .display-card h3,
+    .tour-card h3 {
+      margin: 0;
+      font-size: 21px;
+      letter-spacing: -0.035em;
+      line-height: 1.18;
+    }
+
+    .value-card p,
+    .display-card p,
+    .tour-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .display-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .display-card {
+      padding: 22px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: white;
+      box-shadow: 0 14px 36px rgba(39, 31, 113, 0.06);
+      transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .display-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      box-shadow: 0 20px 46px rgba(39, 31, 113, 0.12);
+    }
+
+    .display-thumb {
+      height: 128px;
+      border-radius: 16px;
+      background: #f2f0ff;
+      border: 1px solid #e3def7;
+      margin-bottom: 18px;
+      padding: 14px;
+      overflow: hidden;
+    }
+
+    .skeleton-line,
+    .skeleton-dot,
+    .skeleton-block {
+      background: #d7d2e8;
+      border-radius: 999px;
+    }
+
+    .skeleton-block {
+      border-radius: 9px;
+    }
+
+    .mock-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mock-list-row {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .mock-list-row .skeleton-block {
+      width: 46px;
+      height: 34px;
+      background: #cfd2ef;
+    }
+
+    .mock-list-row .lines {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mock-list-row .lines .skeleton-line:first-child {
+      width: 82%;
+      height: 8px;
+    }
+
+    .mock-list-row .lines .skeleton-line:last-child {
+      width: 54%;
+      height: 8px;
+    }
+
+    .mock-catalog {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .mock-catalog .item {
+      display: grid;
+      gap: 9px;
+    }
+
+    .mock-catalog .skeleton-block {
+      height: 52px;
+      background: #c8e0eb;
+    }
+
+    .mock-catalog .skeleton-line {
+      height: 7px;
+    }
+
+    .mock-people {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      text-align: center;
+    }
+
+    .mock-people .person {
+      display: grid;
+      place-items: center;
+      gap: 12px;
+    }
+
+    .mock-people .skeleton-dot {
+      width: 44px;
+      height: 44px;
+      background: #c8c1ef;
+    }
+
+    .mock-people .skeleton-line {
+      height: 8px;
+      width: 72%;
+    }
+
+    .mock-schedule {
+      display: grid;
+      gap: 11px;
+    }
+
+    .mock-schedule .row {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 12px;
+    }
+
+    .mock-schedule .skeleton-block {
+      height: 26px;
+      background: #cde8d8;
+    }
+
+    .mock-schedule .lines {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mock-schedule .skeleton-line {
+      height: 7px;
+    }
+
+    .mock-pricing {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .mock-price-card {
+      height: 92px;
+      border-radius: 10px;
+      border: 1px solid #d9d3f0;
+      background: #fff;
+      padding: 10px;
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .mock-price-card .skeleton-line {
+      height: 7px;
+    }
+
+    .mock-price-card .skeleton-block {
+      height: 18px;
+      background: #c9c0f4;
+    }
+
+    .mock-table {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mock-table .table-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .mock-table .skeleton-block {
+      height: 24px;
+      background: #cfcade;
+      border-radius: 6px;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+      margin-top: 34px;
+    }
+
+    .workflow-step {
+      position: relative;
+      padding: 18px;
+      border-radius: 18px;
+      background: white;
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 34px rgba(39, 31, 113, 0.05);
+    }
+
+    .step-no {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .workflow-step strong {
+      display: block;
+      letter-spacing: -0.02em;
+    }
+
+    .workflow-step small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .feature-split {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .panel {
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .panel h2 {
+      font-size: clamp(30px, 3.4vw, 44px);
+    }
+
+    .check-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 26px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      color: var(--muted);
+      font-weight: 620;
+    }
+
+    .check {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: var(--primary);
+      background: var(--primary-soft);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 36px;
+    }
+
+    .compare-card {
+      padding: 26px;
+      border-radius: 22px;
+      background: white;
+      border: 1px solid var(--line);
+    }
+
+    .compare-card.primary {
+      background: linear-gradient(180deg, #fff, var(--primary-soft-2));
+      border-color: rgba(53, 37, 211, 0.25);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .compare-card h3 {
+      margin: 0 0 18px;
+      font-size: 22px;
+      letter-spacing: -0.035em;
+    }
+
+    .compare-card ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+      font-weight: 620;
+    }
+
+    .compare-card li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .compare-card .mark {
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    .tour-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .tour-card {
+      overflow: hidden;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: white;
+      box-shadow: 0 14px 36px rgba(39, 31, 113, 0.06);
+    }
+
+    .tour-copy {
+      padding: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step-pill {
+      display: inline-flex;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 820;
+    }
+
+    .tour-card img {
+      width: 100%;
+      aspect-ratio: 16 / 9.5;
+      object-fit: cover;
+      object-position: center top;
+      background: var(--primary-soft-2);
+    }
+
+    .tour-card.wide {
+      grid-column: 1 / -1;
+    }
+
+    .tour-card.wide img {
+      aspect-ratio: 16 / 7.4;
+    }
+
+    .faq {
+      display: grid;
+      gap: 12px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    details {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: white;
+      box-shadow: 0 8px 24px rgba(39, 31, 113, 0.04);
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 20px 22px;
+      font-weight: 780;
+      letter-spacing: -0.02em;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details p {
+      margin: 0;
+      padding: 0 22px 22px;
+      color: var(--muted);
+    }
+
+    .cta {
+      padding: 86px 0 100px;
+    }
+
+    .cta-box {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      padding: 54px 28px;
+      border-radius: 32px;
+      color: white;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.25), transparent 18rem),
+        linear-gradient(135deg, var(--primary), #2414ad);
+      box-shadow: 0 30px 80px rgba(53, 37, 211, 0.28);
+    }
+
+    .cta-box h2 {
+      color: white;
+    }
+
+    .cta-box p {
+      color: rgba(255,255,255,0.82);
+      margin: 18px auto 0;
+      font-size: 18px;
+      max-width: 660px;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.54);
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .feature-split {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 54px;
+      }
+
+      .float-card {
+        display: none;
+      }
+
+      .value-grid,
+      .display-grid,
+      .workflow {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-step {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        align-items: center;
+        column-gap: 12px;
+      }
+
+      .workflow-step .step-no {
+        margin: 0;
+      }
+
+      .comparison,
+      .tour-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tour-card.wide {
+        grid-column: auto;
+      }
+
+      .tour-card.wide img {
+        aspect-ratio: 16 / 9.5;
+      }
+    }
+
+    @media (max-width: 740px) {
+      .container {
+        width: min(100% - 28px, var(--max));
+      }
+
+      .nav-inner {
+        height: 66px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .actions .btn-ghost {
+        display: none;
+      }
+
+      .hero-points {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions,
+      .cta-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .section {
+        padding: 64px 0;
+      }
+
+      .display-thumb {
+        height: 118px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">T</span>
+        <span>Tabloria</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#display-types">Display types</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="demo.html">Demo</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="actions">
+        <a class="btn btn-primary" href="https://wordpress.org/plugins/tabloria-searchable-displays/" target="_blank" rel="noopener" target="_blank" rel="noopener">Get Tabloria</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-dot"></span> WordPress CSV display builder</div>
+          <h1>Turn your CSV into a WordPress catalog, directory, or searchable display</h1>
+          <p class="lead">
+            Upload a CSV, choose one of six display types, map your columns, and publish reusable Gutenberg displays without custom code.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#cta">Start with a CSV</a>
+            <a class="btn btn-secondary" href="demo.html">View demo</a>
+          </div>
+
+          <div class="hero-points" aria-label="Product highlights">
+            <div class="hero-point">CSV-first workflow</div>
+            <div class="hero-point">Gutenberg block</div>
+            <div class="hero-point">Shortcode fallback</div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="browser">
+            <div class="browser-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <img src="image4.png" alt="Tabloria setup and preview screen inside WordPress admin" />
+          </div>
+
+          <div class="float-card">
+            <strong>Reusable display saved</strong>
+            <span>Insert it into Gutenberg, reuse it on pages, or use the shortcode fallback.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Positioning</div>
+          <h2>Your spreadsheet is more than a table</h2>
+          <p>
+            Table plugins are great when you only need rows and columns. Tabloria is for turning spreadsheet rows into reusable WordPress displays — from listings and catalogs to directories, schedules, pricing tables, and simple data tables.
+          </p>
+        </div>
+
+        <div class="value-grid">
+          <article class="value-card">
+            <div class="icon">01</div>
+            <h3>Stop copy-pasting spreadsheet data</h3>
+            <p>Build the display from a CSV instead of manually rebuilding the same content in WordPress blocks.</p>
+          </article>
+
+          <article class="value-card">
+            <div class="icon">02</div>
+            <h3>Publish more than plain tables</h3>
+            <p>Turn rows into cards, lists, directories, schedules, pricing layouts, or searchable tables.</p>
+          </article>
+
+          <article class="value-card">
+            <div class="icon">03</div>
+            <h3>Reuse displays across pages</h3>
+            <p>Save a display once, insert it with Gutenberg, and keep display setup separate from page content.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="display-types">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Six display types</div>
+          <h2>Choose what your spreadsheet becomes</h2>
+          <p>Start from your data, then choose the display structure that fits the page you want to publish.</p>
+        </div>
+
+        <div class="display-grid">
+          <article class="display-card">
+            <div class="display-thumb mock-list">
+              <div class="mock-list-row"><div class="skeleton-block"></div><div class="lines"><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+              <div class="mock-list-row"><div class="skeleton-block"></div><div class="lines"><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+            </div>
+            <h3>Searchable Listings</h3>
+            <p>Create searchable cards from rows of data. Great for properties, services, resources, or locations.</p>
+          </article>
+
+          <article class="display-card">
+            <div class="display-thumb mock-catalog">
+              <div class="item"><div class="skeleton-block"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+              <div class="item"><div class="skeleton-block"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+              <div class="item"><div class="skeleton-block"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+            </div>
+            <h3>Product Catalog</h3>
+            <p>Display products, assets, or offers with images, prices, and filters.</p>
+          </article>
+
+          <article class="display-card">
+            <div class="display-thumb mock-people">
+              <div class="person"><div class="skeleton-dot"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+              <div class="person"><div class="skeleton-dot"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+              <div class="person"><div class="skeleton-dot"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+            </div>
+            <h3>Team Directory</h3>
+            <p>Create a clean people or organization directory.</p>
+          </article>
+
+          <article class="display-card">
+            <div class="display-thumb mock-schedule">
+              <div class="row"><div class="skeleton-block"></div><div class="lines"><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+              <div class="row"><div class="skeleton-block"></div><div class="lines"><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+              <div class="row"><div class="skeleton-block"></div><div class="lines"><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>
+            </div>
+            <h3>Event Schedule</h3>
+            <p>Turn date-based rows into a readable schedule.</p>
+          </article>
+
+          <article class="display-card">
+            <div class="display-thumb mock-pricing">
+              <div class="mock-price-card"><div class="skeleton-line"></div><div class="skeleton-block"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+              <div class="mock-price-card"><div class="skeleton-line"></div><div class="skeleton-block"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+              <div class="mock-price-card"><div class="skeleton-line"></div><div class="skeleton-block"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+            </div>
+            <h3>Pricing Table</h3>
+            <p>Create pricing cards from spreadsheet rows.</p>
+          </article>
+
+          <article class="display-card">
+            <div class="display-thumb mock-table">
+              <div class="table-row"><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div></div>
+              <div class="table-row"><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div></div>
+              <div class="table-row"><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div></div>
+            </div>
+            <h3>Simple Data Table</h3>
+            <p>Publish a searchable table with sorting and pagination.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="workflow">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Workflow</div>
+          <h2>From CSV to published page</h2>
+          <p>Tabloria keeps the process close to how WordPress users already publish content.</p>
+        </div>
+
+        <div class="workflow">
+          <article class="workflow-step">
+            <div class="step-no">1</div>
+            <div><strong>Choose display type</strong><small>Pick the structure that matches your data.</small></div>
+          </article>
+          <article class="workflow-step">
+            <div class="step-no">2</div>
+            <div><strong>Upload CSV</strong><small>Start with a simple spreadsheet export.</small></div>
+          </article>
+          <article class="workflow-step">
+            <div class="step-no">3</div>
+            <div><strong>Review columns</strong><small>Confirm detected fields and types.</small></div>
+          </article>
+          <article class="workflow-step">
+            <div class="step-no">4</div>
+            <div><strong>Map & preview</strong><small>Connect columns to visual fields.</small></div>
+          </article>
+          <article class="workflow-step">
+            <div class="step-no">5</div>
+            <div><strong>Insert in Gutenberg</strong><small>Publish with a block or shortcode.</small></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container feature-split">
+        <div class="panel">
+          <div class="kicker">WordPress-native</div>
+          <h2>Built for the publishing flow, not just data storage</h2>
+          <p class="lead" style="font-size:17px;margin-top:18px;">
+            Tabloria keeps the content editor clean. Your display setup lives in Tabloria, while Gutenberg only needs to insert the saved display.
+          </p>
+
+          <ul class="check-list">
+            <li><span class="check">✓</span><span>Works inside wp-admin</span></li>
+            <li><span class="check">✓</span><span>Saved displays can be inserted with a Gutenberg block</span></li>
+            <li><span class="check">✓</span><span>Shortcode fallback for classic workflows and page builders</span></li>
+            <li><span class="check">✓</span><span>Display setup stays separate from page content</span></li>
+          </ul>
+        </div>
+
+        <div class="browser">
+          <div class="browser-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <img src="image1.png" alt="Tabloria display embedded inside the WordPress Gutenberg editor" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Positioning</div>
+          <h2>Use tables when you need tables. Use Tabloria when your CSV should become website content.</h2>
+        </div>
+
+        <div class="comparison">
+          <article class="compare-card">
+            <h3>Table plugins are great for</h3>
+            <ul>
+              <li><span class="mark">✓</span><span>Simple rows and columns</span></li>
+              <li><span class="mark">✓</span><span>Tabular data publishing</span></li>
+              <li><span class="mark">✓</span><span>Spreadsheet-like table output</span></li>
+            </ul>
+          </article>
+
+          <article class="compare-card primary">
+            <h3>Tabloria is built for</h3>
+            <ul>
+              <li><span class="mark">✓</span><span>Listings, catalogs, directories, and schedules</span></li>
+              <li><span class="mark">✓</span><span>Reusable Gutenberg displays</span></li>
+              <li><span class="mark">✓</span><span>Visual field mapping</span></li>
+              <li><span class="mark">✓</span><span>Shortcode fallback</span></li>
+              <li><span class="mark">✓</span><span>Spreadsheet-based content publishing</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="screenshots">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Product tour</div>
+          <h2>See the full workflow</h2>
+          <p>A practical WordPress admin flow from choosing a display type to publishing it on a page.</p>
+        </div>
+
+        <div class="tour-grid">
+          <article class="tour-card">
+            <div class="tour-copy"><span class="step-pill">Step 1</span><h3>Choose a display type</h3><p>Select one of six supported structures.</p></div>
+            <img src="image1.png" alt="Choosing a Tabloria display type in WordPress admin" />
+          </article>
+
+          <article class="tour-card">
+            <div class="tour-copy"><span class="step-pill">Step 2</span><h3>Upload CSV</h3><p>Start with a CSV file exported from your spreadsheet.</p></div>
+            <img src="image2.png" alt="Uploading a CSV file in Tabloria" />
+          </article>
+
+          <article class="tour-card">
+            <div class="tour-copy"><span class="step-pill">Step 3</span><h3>Review detected columns</h3><p>Check detected field names and types before mapping.</p></div>
+            <img src="image3.png" alt="Reviewing detected CSV columns in Tabloria" />
+          </article>
+
+          <article class="tour-card">
+            <div class="tour-copy"><span class="step-pill">Step 4</span><h3>Map and preview</h3><p>Map columns to visual fields and preview the result.</p></div>
+            <img src="image4.png" alt="Mapping columns and previewing product catalog display" />
+          </article>
+
+          <article class="tour-card">
+            <div class="tour-copy"><span class="step-pill">Step 5</span><h3>Save display</h3><p>Save the configured display as reusable WordPress content.</p></div>
+            <img src="image5.png" alt="Saved Tabloria display confirmation screen" />
+          </article>
+
+          <article class="tour-card">
+            <div class="tour-copy"><span class="step-pill">Step 6</span><h3>Insert in Gutenberg</h3><p>Find the Tabloria block in the editor and select a saved display.</p></div>
+            <img src="image6.png" alt="Finding the Tabloria block in Gutenberg" />
+          </article>
+
+          <article class="tour-card wide">
+            <div class="tour-copy"><span class="step-pill">Step 7</span><h3>Publish the page</h3><p>The display renders inside the WordPress page and remains reusable.</p></div>
+            <img src="image7.png" alt="Published Tabloria display inside Gutenberg page editor" />
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">FAQ</div>
+          <h2>Practical answers</h2>
+        </div>
+
+        <div class="faq">
+          <details open>
+            <summary>Is Tabloria a table plugin?</summary>
+            <p>Tabloria can publish simple data tables, but its main purpose is creating reusable WordPress displays from spreadsheet data.</p>
+          </details>
+
+          <details>
+            <summary>What display types are available?</summary>
+            <p>Tabloria currently supports Searchable Listings, Product Catalog, Team Directory, Event Schedule, Pricing Table, and Simple Data Table.</p>
+          </details>
+
+          <details>
+            <summary>What file format does it support?</summary>
+            <p>The current version starts with CSV.</p>
+          </details>
+
+          <details>
+            <summary>Does it work with Gutenberg?</summary>
+            <p>Yes. Saved displays can be inserted with the Tabloria Gutenberg block.</p>
+          </details>
+
+          <details>
+            <summary>Can I use shortcodes?</summary>
+            <p>Yes. Every saved display also has a shortcode fallback for classic workflows, widgets, or page builders.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Publish your CSV as a WordPress display</h2>
+          <p>Choose a display type, map your fields, preview the result, and insert it into Gutenberg.</p>
+
+          <div class="cta-actions">
+            <a class="btn btn-secondary" href="https://wordpress.org/plugins/tabloria-searchable-displays/" target="_blank" rel="noopener">Get Tabloria on WordPress.org</a>
+            <a class="btn btn-ghost" href="demo.html" style="color:white;border-color:rgba(255,255,255,.35);">View demo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="brand" style="color:var(--text);font-size:16px;"><span class="brand-mark" style="width:28px;height:28px;font-size:14px;">T</span> Tabloria</div>
+      <div class="footer-links">
+        <a href="#display-types">Display types</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="demo.html">Demo</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>Built for the WordPress ecosystem.</div>
+    </div>
+  </footer>
+</body>
+</html>
