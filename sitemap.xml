@@ -15,8 +15,14 @@
 
   <url>
     <loc>https://tabloria.site/blog/</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-06-16</lastmod>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://tabloria.site/blog/card-url-buttons-wordpress/</loc>
+    <lastmod>2026-06-16</lastmod>
+    <priority>0.7</priority>
   </url>
 
   <url>

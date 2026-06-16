@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Display CSV Links as Buttons in WordPress Cards | Tabloria</title>
+  <meta name="description" content="Learn how to turn URL columns from a CSV into button-style links in WordPress card displays, add custom button text, choose a button style, and customize with CSS.">
+  <link rel="canonical" href="https://tabloria.site/blog/card-url-buttons-wordpress/">
+  <meta property="og:title" content="How to Display CSV Links as Buttons in WordPress Cards | Tabloria">
+  <meta property="og:description" content="Turn URL columns into button-style links in WordPress card displays with Tabloria. Includes custom text, button styles, and CSS customization.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://tabloria.site/blog/card-url-buttons-wordpress/">
+  <style>
+:root{
+  --bg:#f8fafc;--panel:#ffffff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f1f5f9;--brand:#2563eb;--brand-dark:#1d4ed8;--accent:#0f766e;
+}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}.wrap{max-width:1120px;margin:0 auto;padding:0 24px}.site-header{border-bottom:1px solid var(--line);background:rgba(255,255,255,.86);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:800;font-size:20px;color:var(--ink);letter-spacing:-.03em}.brand-mark{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:10px;background:var(--ink);color:white;margin-right:8px;font-size:15px}.nav-links{display:flex;align-items:center;gap:18px;font-size:14px}.button{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:var(--brand);color:white;font-weight:700;padding:12px 18px;box-shadow:0 10px 24px rgba(37,99,235,.20)}.button:hover{background:var(--brand-dark);text-decoration:none}.button.secondary{background:white;color:var(--ink);border:1px solid var(--line);box-shadow:none}.hero{padding:72px 0 42px}.eyebrow{display:inline-flex;padding:6px 11px;border:1px solid var(--line);background:white;border-radius:999px;color:var(--muted);font-size:13px;font-weight:700}.hero-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:40px;align-items:start}.hero h1{font-size:56px;line-height:1.02;letter-spacing:-.055em;margin:18px 0 18px}.lede{font-size:20px;color:#334155;max-width:760px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.toc{background:white;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 24px 70px rgba(15,23,42,.08)}.toc h2{font-size:15px;margin:0 0 10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.toc a{display:block;color:var(--ink);padding:8px 0;border-top:1px solid var(--soft);font-size:15px}.article{display:grid;grid-template-columns:minmax(0,740px) 280px;gap:48px;align-items:start;padding:24px 0 70px}.content{background:white;border:1px solid var(--line);border-radius:28px;padding:42px;box-shadow:0 24px 80px rgba(15,23,42,.06)}.content h2{font-size:34px;line-height:1.15;letter-spacing:-.035em;margin:42px 0 14px}.content h2:first-child{margin-top:0}.content h3{font-size:22px;letter-spacing:-.02em;margin:28px 0 8px}.content p{margin:0 0 18px}.content ul,.content ol{padding-left:24px;margin:0 0 22px}.content li{margin:7px 0}.callout{border:1px solid #bfdbfe;background:#eff6ff;border-radius:22px;padding:22px;margin:30px 0}.note{border:1px solid var(--line);background:var(--soft);border-radius:22px;padding:22px;margin:30px 0}.comparison{width:100%;border-collapse:separate;border-spacing:0;margin:24px 0;border:1px solid var(--line);border-radius:18px;overflow:hidden}.comparison th,.comparison td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}.comparison th{background:var(--soft);font-size:14px;color:#334155}.comparison tr:last-child td{border-bottom:0}.figure{margin:30px 0}.figure img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 54px rgba(15,23,42,.12)}.figure figcaption{margin-top:10px;color:var(--muted);font-size:14px}.code{display:block;overflow:auto;background:#0f172a;color:#e2e8f0;border-radius:18px;padding:18px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;font-size:14px;line-height:1.55;margin:18px 0 24px}.sidebar{position:sticky;top:96px}.side-card{background:white;border:1px solid var(--line);border-radius:24px;padding:22px;margin-bottom:16px}.side-card h3{margin:0 0 10px;font-size:18px}.side-card p{color:var(--muted);font-size:14px;margin:0 0 14px}.side-card a:not(.button){display:block;margin:8px 0}.footer-cta{background:var(--ink);color:white;border-radius:32px;padding:44px;margin:20px 0 70px}.footer-cta h2{font-size:38px;line-height:1.1;letter-spacing:-.04em;margin:0 0 14px}.footer-cta p{color:#cbd5e1;max-width:700px}.site-footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}@media(max-width:900px){.hero-grid,.article{grid-template-columns:1fr}.hero h1{font-size:42px}.content{padding:28px}.nav-links{display:none}.sidebar{position:static}.footer-cta h2{font-size:30px}}</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap nav"><a class="brand" href="/"><span class="brand-mark">T</span>Tabloria</a><nav class="nav-links"><a href="/demo.html">Demo</a><a href="/blog/how-to-create-searchable-directory-wordpress/">Directory guide</a><a href="/blog/csv-to-searchable-table-wordpress/">CSV guide</a><a class="button" href="https://wordpress.org/plugins/tabloria-searchable-displays/">Get Tabloria</a></nav></div></header>
+<main>
+  <section class="hero"><div class="wrap hero-grid"><div><span class="eyebrow">WordPress card display guide</span><h1>How to display CSV links as buttons in WordPress cards</h1><p class="lede">When a CSV row contains a URL, the published card should often show a clear action such as View the Lesson, Open Resource, or Register. This guide shows how to turn URL columns into button-style links in Tabloria card displays.</p><div class="hero-actions"><a class="button" href="https://wordpress.org/plugins/tabloria-searchable-displays/">Get Tabloria</a><a class="button secondary" href="/demo.html">View demo</a></div></div><aside class="toc"><h2>In this guide</h2><a href="#why">Why use buttons</a><a href="#setup">Set URL fields as buttons</a><a href="#styles">Choose a button style</a><a href="#css">Custom CSS</a><a href="#faq">FAQ</a></aside></div></section>
+  <section class="wrap article"><article class="content">
+<h2 id="why">Why card links often work better as buttons</h2>
+<p>Plain hyperlinks are fine for simple text, but card displays often represent actionable resources: lessons, products, people, events, locations, or catalog items. In those cases, visitors usually benefit from a clear call to action.</p>
+<p>For example, instead of showing a column label as a regular link, a card can show a button such as <strong>View the Lesson</strong>. The button text can stay the same across cards, while each card still opens the unique URL from its own CSV row.</p>
+<div class="callout"><strong>Good fit:</strong> use button-style URL fields when the URL is the primary next step for each card.</div>
+
+<h2 id="setup">Set URL fields as buttons in Tabloria</h2>
+<p>In Tabloria, URL button settings are part of the card display configuration. They apply to URL columns shown as extra fields in card-based display types such as Searchable Listings, Product Catalog, Team Directory, Event Schedule, and Pricing Table.</p>
+<ol>
+<li>Upload or choose a CSV file that includes a URL column.</li>
+<li>Choose a card-based display type. Do not use Simple Data Table for this feature.</li>
+<li>Make sure the URL column is included in the visible fields for the display.</li>
+<li>Open <strong>Display options</strong>.</li>
+<li>Find <strong>Card Field Display</strong>.</li>
+<li>Set <strong>URL display</strong> to <strong>Button</strong>.</li>
+<li>Optionally enter custom text such as <strong>View the Lesson</strong>.</li>
+</ol>
+<figure class="figure">
+  <img src="tabloria-card-field-display-settings.png" alt="Tabloria Card Field Display settings with URL display set to Button and a button style selected">
+  <figcaption>Card Field Display settings let URL columns appear as regular links or as button-style links in card displays.</figcaption>
+</figure>
+<p>If the custom link/button text is empty, Tabloria falls back to the column header. That keeps existing displays compatible and gives you a quick way to change the label by renaming the column header.</p>
+
+<h2 id="styles">Choose a button style</h2>
+<p>When URL display is set to Button, Tabloria shows a button style dropdown. The current button styles are:</p>
+<table class="comparison">
+<thead><tr><th>Style</th><th>Use it when</th></tr></thead>
+<tbody>
+<tr><td>Theme default</td><td>You want the button to follow the active WordPress theme as much as possible.</td></tr>
+<tr><td>Primary</td><td>The URL is the main action on the card.</td></tr>
+<tr><td>Secondary</td><td>The URL is useful but should not dominate the card.</td></tr>
+<tr><td>Outline</td><td>You want a lighter button that still looks actionable.</td></tr>
+</tbody>
+</table>
+<p>The link remains a normal HTML anchor. Each button still uses the row-specific URL from the CSV, opens in a new tab, and includes safe link attributes.</p>
+
+<h2 id="css">Custom CSS</h2>
+<p>Tabloria includes CSS hooks so you can adjust button styles without editing plugin files. The frontend classes are:</p>
+<pre class="code">.tabloria-card__button
+.tabloria-card__button--theme
+.tabloria-card__button--primary
+.tabloria-card__button--secondary
+.tabloria-card__button--outline</pre>
+<p>The Theme default option also adds the WordPress-friendly class <code>wp-element-button</code>, which helps block themes apply their own button styling.</p>
+<p>For a block theme, you can usually add CSS in the Site Editor:</p>
+<ol>
+<li>Open <strong>Appearance</strong> in WordPress admin.</li>
+<li>Open <strong>Editor</strong>.</li>
+<li>Go to <strong>Styles</strong>.</li>
+<li>Open the style menu and choose <strong>Additional CSS</strong>.</li>
+</ol>
+<figure class="figure">
+  <img src="additional-css-wordpress-site-editor.png" alt="WordPress Site Editor Additional CSS panel with a Tabloria button CSS rule">
+  <figcaption>Block themes can add custom CSS through the Site Editor Styles panel.</figcaption>
+</figure>
+<p>For example, this changes Outline buttons to a green filled button:</p>
+<pre class="code">.tabloria-card__button--outline {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #fff;
+}</pre>
+<p>For classic themes, the same CSS is often available under <strong>Appearance → Customize → Additional CSS</strong>. If your theme hides that menu, the Site Editor or your theme's custom CSS area is the better place to check.</p>
+
+<h2 id="faq">FAQ</h2>
+<h3>Does this affect Simple Data Table displays?</h3>
+<p>No. Simple Data Table output remains table-focused. URL columns in tables continue to render as regular links.</p>
+<h3>Can every card have a different destination URL?</h3>
+<p>Yes. The button label can be shared, but each card still uses the URL value from its own CSV row.</p>
+<h3>Can I use the column header as the button text?</h3>
+<p>Yes. Leave the custom link/button text empty and Tabloria will use the URL column label.</p>
+<h3>Can I still style buttons with CSS?</h3>
+<p>Yes. Use the <code>.tabloria-card__button</code> classes and the style modifiers shown above.</p>
+</article><aside class="sidebar"><div class="side-card"><h3>Build it with Tabloria</h3><p>Upload a CSV, choose a card display, map URL columns, and publish button-style actions in WordPress.</p><a class="button" href="https://wordpress.org/plugins/tabloria-searchable-displays/">Install plugin</a></div><div class="side-card"><h3>Related guides</h3><a href="/blog/how-to-create-searchable-directory-wordpress/">Searchable directory guide</a><a href="/blog/csv-to-searchable-table-wordpress/">CSV to searchable table</a><a href="/blog/tablepress-alternative-searchable-displays/">TablePress alternative</a></div></aside></section>
+  <section class="wrap"><div class="footer-cta"><h2>Turn CSV rows into searchable WordPress displays</h2><p>Tabloria is built for catalogs, directories, searchable listings, schedules, pricing layouts, and simple data tables — without custom code.</p><div class="hero-actions"><a class="button" href="https://wordpress.org/plugins/tabloria-searchable-displays/">Get Tabloria on WordPress.org</a><a class="button secondary" href="/demo.html">View live demo</a></div></div></section>
+</main>
+<footer class="site-footer"><div class="wrap">T Tabloria · <a href="/">Landing page</a> · <a href="/demo.html">Demo</a> · Built for the WordPress ecosystem.</div></footer>
+</body>
+</html>
