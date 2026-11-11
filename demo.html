@@ -4,7 +4,7 @@
  <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Product Catalog Demo — Tabloria CSV Display Plugin</title>
+<title>CSV Product Catalog Demo — Rendered by Tabloria in WordPress</title>
 
 <meta
   name="description"
@@ -12,23 +12,24 @@
 />
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Tabloria — CSV to WordPress Display Plugin" />
+<meta property="og:title" content="Tabloria — Searchable CSV Product Catalog for WordPress" />
 <meta
   property="og:description"
-  content="Turn CSV data into searchable WordPress displays, product catalogs, directories, schedules, pricing tables, and simple data tables."
+  content="See a product catalog rendered in WordPress from CSV, with searchable cards and category and status filters."
 />
 <meta property="og:url" content="https://tabloria.site/demo.html" />
 <meta property="og:image" content="https://tabloria.site/og-image.png" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Tabloria — CSV to WordPress Display Plugin" />
+<meta name="twitter:title" content="Tabloria — Searchable CSV Product Catalog for WordPress" />
 <meta
   name="twitter:description"
-  content="Turn CSV data into searchable WordPress displays, product catalogs, directories, schedules, pricing tables, and simple data tables."
+  content="See a product catalog rendered in WordPress from CSV, with searchable cards and category and status filters."
 />
 <meta name="twitter:image" content="https://tabloria.site/og-image.png" />
 
 <link rel="canonical" href="https://tabloria.site/demo.html" />
+  <link rel="stylesheet" href="/demo-assets/frontend.css" />
   <style>
     :root {
       --bg: #f8f7ff;
@@ -594,13 +595,13 @@
         <div class="eyebrow"><span class="eyebrow-dot"></span> Live frontend demo</div>
         <h1>Product Catalog Demo</h1>
         <p class="lead">
-          This is what a Tabloria display can look like on a WordPress page: searchable product cards generated from CSV rows.
+          Explore a searchable product catalog rendered by Tabloria from a CSV inside WordPress.
         </p>
 
         <div class="source-card">
           <div>
-            <strong>Built from products.csv with Tabloria</strong>
-            <span>Display type: Product Catalog · Fields: name, category, price, status, description</span>
+            <strong>Rendered from catalog.csv in WordPress</strong>
+            <span>Product Catalog · Search, category and status filters · Gutenberg block</span>
           </div>
           <a class="btn btn-secondary" href="#catalog">Try search & filters</a>
         </div>
@@ -610,46 +611,164 @@
     <section class="catalog-shell" id="catalog">
       <div class="container">
         <div class="catalog-panel">
-          <div class="panel-top">
-            <div class="panel-heading">
-              <div>
-                <h2>Sample Product Catalog</h2>
-                <p>Search, filter, and browse a frontend display created from spreadsheet-like data.</p>
-              </div>
-              <span class="pill">Generated display</span>
-            </div>
+          <section
+			id="tabloria-display-13-28400eda-7036-4cd4-89fd-bb42b30c046f"
+			class="tabloria-display is-comfortable is-rounded tabloria-display--product-catalog   is-card-width-320"
+			style="--tabloria-accent: #3525cd; --tabloria-dropdown-hover: #3525cd"
+			data-per-page="12"
+			data-hide-rows-until-search="false"
+			data-pagination="true"
+			data-show-result-count="true"
+			data-result-label="products"
+			data-display-type="product_catalog"
+			data-contained="false"
+		>
+							<header class="tabloria-display__header">
+					<h2></h2>
+				</header>
 
-            <div class="filters">
-              <div class="field">
-                <input id="searchInput" type="search" placeholder="Search products, categories, or descriptions..." aria-label="Search products" />
-              </div>
+					<div class="tabloria-display__controls">
+							<label class="tabloria-display__search">
+					<span class="screen-reader-text">Search all fields in this Display</span>
+					<input type="search" data-tabloria-search placeholder="Search products…" />
+				</label>
 
-              <div class="field">
-                <select id="categoryFilter" aria-label="Filter by category">
-                  <option value="all">All categories</option>
-                </select>
-              </div>
+							<div class="tabloria-display__filters">
+																	<label>
+							<span class="screen-reader-text">Filter by Category</span>
+							<select data-tabloria-filter="category" aria-label="Filter by Category">
+								<option value="">All Category</option>
+																										<option value="Bags">Bags</option>
+																										<option value="Furniture">Furniture</option>
+																										<option value="Home">Home</option>
+																										<option value="Lighting">Lighting</option>
+															</select>
+						</label>
+																	<label>
+							<span class="screen-reader-text">Filter by Status</span>
+							<select data-tabloria-filter="status" aria-label="Filter by Status">
+								<option value="">All Status</option>
+																										<option value="In Stock">In Stock</option>
+																										<option value="Low Stock">Low Stock</option>
+															</select>
+						</label>
+									</div>
+				<button type="button" class="tabloria-display__reset" data-tabloria-reset-filters hidden>Reset all</button>
+					</div>
 
-              <div class="count" id="resultCount">0 products</div>
-            </div>
-          </div>
+					<div class="tabloria-display__grid" aria-live="polite">
+									<article class="tabloria-card tabloria-card--product-catalog" data-tabloria-item data-search="canvas weekender tote bags /demo-products/canvas-tote.webp $64 in stock roomy natural canvas with reinforced leather handles. field &amp; co https://example.com/products/canvas-tote" data-filter-category="Bags" data-filter-status="In Stock">
+							<div class="tabloria-card__image">
+					<img decoding="sync" src="/demo-products/canvas-tote.webp" alt="" loading="eager" />
+											<span class="tabloria-card__badge">In Stock</span>
+									</div>
 
-          <div class="grid" id="productGrid"></div>
+			<div class="tabloria-card__body">
+									<h3>Canvas Weekender Tote</h3>
+													<p class="tabloria-card__subtitle">Bags</p>
+													<p class="tabloria-card__price">$64</p>
+													<dl class="tabloria-card__fields">
+													<div>
+								<dt>Description</dt>
+								<dd>Roomy natural canvas with reinforced leather handles.</dd>
+							</div>
+													<div>
+								<dt>Brand</dt>
+								<dd>Field &amp; Co</dd>
+							</div>
+											</dl>
+													<div class="tabloria-card__actions">
+													<a class="tabloria-card__button tabloria-card__button--primary" href="https://example.com/products/canvas-tote" target="_blank" rel="noopener noreferrer" aria-label="Open Product Url for Canvas Weekender Tote">View product</a>											</div>
+							</div>
+		</article>
+											<article class="tabloria-card tabloria-card--product-catalog" data-tabloria-item data-search="matte ceramic mug home /demo-products/ceramic-mug.webp $22 low stock hand-finished stoneware with a warm natural glaze. clay studio https://example.com/products/ceramic-mug" data-filter-category="Home" data-filter-status="Low Stock">
+							<div class="tabloria-card__image">
+					<img decoding="sync" src="/demo-products/ceramic-mug.webp" alt="" loading="eager" />
+											<span class="tabloria-card__badge">Low Stock</span>
+									</div>
 
-          <div class="empty" id="emptyState">
-            <strong>No matching products</strong>
-            Try another search term or category.
-          </div>
+			<div class="tabloria-card__body">
+									<h3>Matte Ceramic Mug</h3>
+													<p class="tabloria-card__subtitle">Home</p>
+													<p class="tabloria-card__price">$22</p>
+													<dl class="tabloria-card__fields">
+													<div>
+								<dt>Description</dt>
+								<dd>Hand-finished stoneware with a warm natural glaze.</dd>
+							</div>
+													<div>
+								<dt>Brand</dt>
+								<dd>Clay Studio</dd>
+							</div>
+											</dl>
+													<div class="tabloria-card__actions">
+													<a class="tabloria-card__button tabloria-card__button--primary" href="https://example.com/products/ceramic-mug" target="_blank" rel="noopener noreferrer" aria-label="Open Product Url for Matte Ceramic Mug">View product</a>											</div>
+							</div>
+		</article>
+											<article class="tabloria-card tabloria-card--product-catalog" data-tabloria-item data-search="oak wall shelf furniture /demo-products/oak-shelf.webp $140 in stock minimal solid-oak shelf for books and small objects. harbor home https://example.com/products/oak-shelf" data-filter-category="Furniture" data-filter-status="In Stock">
+							<div class="tabloria-card__image">
+					<img decoding="sync" src="/demo-products/oak-shelf.webp" alt="" loading="eager" />
+											<span class="tabloria-card__badge">In Stock</span>
+									</div>
+
+			<div class="tabloria-card__body">
+									<h3>Oak Wall Shelf</h3>
+													<p class="tabloria-card__subtitle">Furniture</p>
+													<p class="tabloria-card__price">$140</p>
+													<dl class="tabloria-card__fields">
+													<div>
+								<dt>Description</dt>
+								<dd>Minimal solid-oak shelf for books and small objects.</dd>
+							</div>
+													<div>
+								<dt>Brand</dt>
+								<dd>Harbor Home</dd>
+							</div>
+											</dl>
+													<div class="tabloria-card__actions">
+													<a class="tabloria-card__button tabloria-card__button--primary" href="https://example.com/products/oak-shelf" target="_blank" rel="noopener noreferrer" aria-label="Open Product Url for Oak Wall Shelf">View product</a>											</div>
+							</div>
+		</article>
+											<article class="tabloria-card tabloria-card--product-catalog" data-tabloria-item data-search="sage studio lamp lighting /demo-products/desk-lamp.webp $89 in stock adjustable metal lamp with a soft warm reading light. northline https://example.com/products/studio-lamp" data-filter-category="Lighting" data-filter-status="In Stock">
+							<div class="tabloria-card__image">
+					<img decoding="sync" src="/demo-products/desk-lamp.webp" alt="" loading="eager" />
+											<span class="tabloria-card__badge">In Stock</span>
+									</div>
+
+			<div class="tabloria-card__body">
+									<h3>Sage Studio Lamp</h3>
+													<p class="tabloria-card__subtitle">Lighting</p>
+													<p class="tabloria-card__price">$89</p>
+													<dl class="tabloria-card__fields">
+													<div>
+								<dt>Description</dt>
+								<dd>Adjustable metal lamp with a soft warm reading light.</dd>
+							</div>
+													<div>
+								<dt>Brand</dt>
+								<dd>Northline</dd>
+							</div>
+											</dl>
+													<div class="tabloria-card__actions">
+													<a class="tabloria-card__button tabloria-card__button--primary" href="https://example.com/products/studio-lamp" target="_blank" rel="noopener noreferrer" aria-label="Open Product Url for Sage Studio Lamp">View product</a>											</div>
+							</div>
+		</article>
+							</div>
+
+			<div class="tabloria-display__empty" hidden>
+				No rows match the current search or filters.			</div>
+
+			<footer class="tabloria-display__footer">
+				<p class="tabloria-display__status" aria-live="polite"></p>
+				<nav class="tabloria-display__pagination" aria-label="Display pagination"></nav>
+			</footer>
+		</section>
         </div>
-
         <div class="csv-note">
-          <div>
-            This demo represents a product catalog created from a simple CSV export. In the plugin, the same content would be configured through Tabloria’s CSV upload, field mapping, preview, and Gutenberg insertion flow.
-          </div>
+          <div>This catalog was rendered by Tabloria in WordPress. GitHub Pages serves the exported HTML with Tabloria’s own search, filters, and styles.</div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
-            <a class="btn btn-secondary" href="index.html#screenshots">View workflow</a>
-            <a class="btn btn-secondary" href="/blog/csv-to-searchable-table-wordpress/">Read CSV guide</a>
-            <a class="btn btn-primary" href="https://wordpress.org/plugins/tabloria-searchable-displays/" target="_blank" rel="noopener">Install Tabloria on WordPress.org</a>
+            <a class="btn btn-secondary" href="/demo-products/catalog.csv" download>Download sample CSV</a>
+            <a class="btn btn-primary" href="https://wordpress.org/plugins/tabloria-searchable-displays/" target="_blank" rel="noopener">Install Tabloria</a>
           </div>
         </div>
       </div>
@@ -663,143 +782,6 @@
     </div>
   </footer>
 
-  <script>
-    const products = [
-      {
-        name: "Ceramic Mug",
-        category: "Home",
-        price: "$22",
-        status: "Low Stock",
-        description: "Hand-glazed mug with a matte finish for everyday coffee and tea.",
-        colors: ["#c8d6f0", "#f0d6c8"]
-      },
-      {
-        name: "Canvas Tote",
-        category: "Bags",
-        price: "$34",
-        status: "In Stock",
-        description: "Durable cotton tote for shopping, commuting, and everyday use.",
-        colors: ["#d8c8f0", "#f0e6c8"]
-      },
-      {
-        name: "Studio Lamp",
-        category: "Lighting",
-        price: "$89",
-        status: "In Stock",
-        description: "Adjustable desk lamp with warm light for focused workspaces.",
-        colors: ["#c8e3f0", "#d8c8f0"]
-      },
-      {
-        name: "Oak Shelf",
-        category: "Furniture",
-        price: "$140",
-        status: "In Stock",
-        description: "Minimal wall shelf in natural oak for books, plants, and decor.",
-        colors: ["#ead7bc", "#c8e0d2"]
-      },
-      {
-        name: "Desk Organizer",
-        category: "Office",
-        price: "$48",
-        status: "In Stock",
-        description: "Compact organizer for notes, pens, cables, and desk accessories.",
-        colors: ["#cfd6ea", "#e8d6f4"]
-      },
-      {
-        name: "Linen Notebook",
-        category: "Stationery",
-        price: "$18",
-        status: "Low Stock",
-        description: "Soft-cover notebook with dotted pages for planning and sketches.",
-        colors: ["#e7d8c5", "#c9d8ef"]
-      },
-      {
-        name: "Glass Vase",
-        category: "Home",
-        price: "$56",
-        status: "In Stock",
-        description: "Clear glass vase with a simple silhouette for flowers or branches.",
-        colors: ["#c7e6ee", "#e8ecf7"]
-      },
-      {
-        name: "Travel Pouch",
-        category: "Bags",
-        price: "$29",
-        status: "Sold Out",
-        description: "Small zip pouch for cables, chargers, cards, and travel essentials.",
-        colors: ["#dfd2f0", "#f0d2d2"]
-      }
-    ];
-
-    const grid = document.getElementById("productGrid");
-    const searchInput = document.getElementById("searchInput");
-    const categoryFilter = document.getElementById("categoryFilter");
-    const resultCount = document.getElementById("resultCount");
-    const emptyState = document.getElementById("emptyState");
-
-    const categories = [...new Set(products.map(product => product.category))].sort();
-
-    for (const category of categories) {
-      const option = document.createElement("option");
-      option.value = category;
-      option.textContent = category;
-      categoryFilter.appendChild(option);
-    }
-
-    function normalize(value) {
-      return value.toLowerCase().trim();
-    }
-
-    function statusClass(status) {
-      if (status === "In Stock") return "in-stock";
-      if (status === "Low Stock") return "low-stock";
-      return "sold-out";
-    }
-
-    function render() {
-      const query = normalize(searchInput.value);
-      const category = categoryFilter.value;
-
-      const filtered = products.filter(product => {
-        const matchesCategory = category === "all" || product.category === category;
-        const haystack = normalize(`${product.name} ${product.category} ${product.description} ${product.status}`);
-        const matchesQuery = !query || haystack.includes(query);
-        return matchesCategory && matchesQuery;
-      });
-
-      grid.innerHTML = "";
-
-      for (const product of filtered) {
-        const card = document.createElement("article");
-        card.className = "product-card";
-        card.innerHTML = `
-          <div class="product-art" style="--art-1:${product.colors[0]}; --art-2:${product.colors[1]};">
-            <div class="shape"></div>
-          </div>
-          <div class="product-body">
-            <div class="meta">
-              <span class="category">${product.category}</span>
-              <span class="badge ${statusClass(product.status)}">${product.status}</span>
-            </div>
-            <h3>${product.name}</h3>
-            <p class="description">${product.description}</p>
-            <div class="card-bottom">
-              <div class="price">${product.price}</div>
-              <button class="mini-btn" type="button">Details</button>
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      }
-
-      resultCount.textContent = `${filtered.length} ${filtered.length === 1 ? "product" : "products"}`;
-      emptyState.style.display = filtered.length ? "none" : "block";
-    }
-
-    searchInput.addEventListener("input", render);
-    categoryFilter.addEventListener("change", render);
-
-    render();
-  </script>
+  <script src="/demo-assets/frontend.js" defer></script>
 </body>
 </html>
