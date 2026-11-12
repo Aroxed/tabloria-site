@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Tabloria — CSV to WordPress Display Plugin</title>
+  <title>Tabloria — Searchable CSV Catalogs for WordPress</title>
 
   <meta
     name="description"
-    content="Tabloria is a WordPress plugin that turns CSV data into searchable displays, product catalogs, directories, schedules, pricing tables, and simple data tables."
+    content="Turn CSV files into searchable WordPress catalogs and directories. Refresh a private server CSV manually or on a schedule with Tabloria."
   />
 
   <link rel="canonical" href="https://tabloria.site/" />
@@ -17,10 +17,10 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Tabloria — CSV to WordPress Display Plugin" />
+<meta property="og:title" content="Tabloria — Searchable CSV Catalogs for WordPress" />
 <meta
   property="og:description"
-  content="Turn CSV data into searchable WordPress displays, product catalogs, directories, schedules, pricing tables, and simple data tables."
+  content="Build searchable WordPress catalogs from CSV and refresh a private server file manually or on a schedule."
 />
 <meta property="og:url" content="https://tabloria.site/" />
 <meta property="og:image" content="https://tabloria.site/og-image.png" />
@@ -29,10 +29,10 @@
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content="https://tabloria.site/" />
-<meta name="twitter:title" content="Tabloria — CSV to WordPress Display Plugin" />
+<meta name="twitter:title" content="Tabloria — Searchable CSV Catalogs for WordPress" />
 <meta
   name="twitter:description"
-  content="Turn CSV data into searchable WordPress displays, product catalogs, directories, schedules, pricing tables, and simple data tables."
+  content="Build searchable WordPress catalogs from CSV and refresh a private server file manually or on a schedule."
 />
 <meta name="twitter:image" content="https://tabloria.site/og-image.png" />
   
@@ -978,6 +978,7 @@
         <a href="#display-types">Display types</a>
         <a href="#use-cases">Use cases</a>
         <a href="#workflow">Workflow</a>
+        <a href="#csv-refresh">CSV refresh</a>
         <a href="#screenshots">Screenshots</a>
         <a href="demo.html">Demo</a>
         <a href="/blog/">Blog</a>
@@ -997,7 +998,7 @@
           <div class="eyebrow"><span class="eyebrow-dot"></span> WordPress CSV display builder</div>
           <h1>Turn your CSV into a WordPress catalog, directory, or searchable display</h1>
           <p class="lead">
-            Upload a CSV, choose one of six display types, map your columns, and publish reusable Gutenberg displays without custom code.
+            Upload a CSV, choose a display type, map your columns, and publish a reusable Gutenberg display. Refresh the catalog from a private server CSV when your data changes.
           </p>
 
           <div class="hero-actions">
@@ -1010,6 +1011,7 @@
             <div class="hero-point">CSV-first workflow</div>
             <div class="hero-point">Gutenberg block</div>
             <div class="hero-point">Shortcode fallback</div>
+            <div class="hero-point">Manual or scheduled CSV refresh</div>
           </div>
         </div>
 
@@ -1062,7 +1064,7 @@
     <section class="section" id="display-types">
       <div class="container">
         <div class="section-head">
-          <div class="kicker">Six display types</div>
+          <div class="kicker">Seven display types</div>
           <h2>Choose what your spreadsheet becomes</h2>
           <p>Start from your data, then choose the display structure that fits the page you want to publish.</p>
         </div>
@@ -1126,6 +1128,15 @@
             <h3>Simple Data Table</h3>
             <p>Publish a searchable table with sorting and pagination.</p>
           </article>
+
+          <article class="display-card">
+            <div class="display-thumb mock-pricing">
+              <div class="mock-price-card"><div class="skeleton-line"></div><div class="skeleton-block"></div><div class="skeleton-line"></div></div>
+              <div class="mock-price-card"><div class="skeleton-line"></div><div class="skeleton-block"></div><div class="skeleton-line"></div></div>
+            </div>
+            <h3>Coupon Code Display</h3>
+            <p>Show coupon codes and direct deal links from CSV rows.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -1162,6 +1173,33 @@
       </div>
     </section>
 
+    <section class="section" id="csv-refresh">
+      <div class="container feature-split">
+        <div class="panel">
+          <div class="kicker">Updated catalogs</div>
+          <h2>Keep a CSV catalog current without rebuilding the page</h2>
+          <p class="lead" style="font-size:17px;margin-top:18px;">Place a CSV in a private directory on the WordPress server using SFTP. Tabloria reads that file and updates every Display connected to the source.</p>
+          <p style="color:var(--muted);font-size:14px;margin:14px 0 0;">Requires Tabloria 0.2.3 or later. Check the installed version before setup.</p>
+          <ul class="check-list">
+            <li><span class="check">✓</span><span>Refresh with a button whenever you upload a new CSV.</span></li>
+            <li><span class="check">✓</span><span>Schedule checks every 6 or 12 hours, daily, or weekly, at a time you choose.</span></li>
+            <li><span class="check">✓</span><span>See the last check, last success, next run, and any error in WordPress.</span></li>
+            <li><span class="check">✓</span><span>If a replacement fails validation, the previous catalog stays available.</span></li>
+          </ul>
+          <a class="btn btn-secondary" href="/blog/refresh-csv-wordpress-sftp/">See the setup guide</a>
+        </div>
+        <div class="panel">
+          <div class="kicker">Three steps</div>
+          <div class="workflow" style="grid-template-columns:1fr;gap:14px;margin-top:20px;">
+            <div class="workflow-step"><div class="step-no">1</div><div><strong>Upload by SFTP</strong><small>Keep the CSV outside the public website directory.</small></div></div>
+            <div class="workflow-step"><div class="step-no">2</div><div><strong>Connect the filename</strong><small>Open the Display’s Data Source tab and enter a relative CSV filename.</small></div></div>
+            <div class="workflow-step"><div class="step-no">3</div><div><strong>Refresh now or schedule it</strong><small>Choose the interval and start time in your WordPress site timezone.</small></div></div>
+          </div>
+          <p style="color:var(--muted);font-size:14px;margin:20px 0 0;">SFTP transfers the file to your hosting account. Tabloria does not store SFTP credentials or connect to another server.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="guides">
       <div class="container">
         <div class="section-head">
@@ -1191,6 +1229,7 @@
             <p>Understand when a traditional table plugin is enough and when a display-first CSV workflow makes more sense.</p>
           </article>
         </div>
+        <p style="text-align:center;margin:26px 0 0;"><a href="/blog/refresh-csv-wordpress-sftp/" style="color:var(--primary);font-weight:750;">Read the server CSV refresh guide →</a></p>
       </div>
     </section>
 
@@ -1292,7 +1331,7 @@
 
         <div class="tour-grid">
           <article class="tour-card">
-            <div class="tour-copy"><span class="step-pill">Step 1</span><h3>Choose a display type</h3><p>Select one of six supported structures.</p></div>
+            <div class="tour-copy"><span class="step-pill">Step 1</span><h3>Choose a display type</h3><p>Select one of seven supported structures.</p></div>
             <img src="image1.png" alt="Choosing a Tabloria display type in WordPress admin" />
           </article>
 
@@ -1344,7 +1383,7 @@
 
           <details>
             <summary>What display types are available?</summary>
-            <p>Tabloria currently supports Searchable Listings, Product Catalog, Team Directory, Event Schedule, Pricing Table, and Simple Data Table.</p>
+            <p>Tabloria supports Searchable Listings, Product Catalog, Team Directory, Event Schedule, Pricing Table, Coupon Code Display, and Simple Data Table.</p>
           </details>
 
           <details>
@@ -1355,6 +1394,11 @@
           <details>
             <summary>Does it work with Gutenberg?</summary>
             <p>Yes. Saved displays can be inserted with the Tabloria Gutenberg block.</p>
+          </details>
+
+          <details>
+            <summary>Can a catalog update when my CSV changes?</summary>
+            <p>Yes. Put a CSV in a private directory on the WordPress server, then refresh it in the Data Source tab or schedule checks every 6 or 12 hours, daily, or weekly. <a href="/blog/refresh-csv-wordpress-sftp/" style="color:var(--primary);text-decoration:underline;">Follow the setup guide</a>.</p>
           </details>
 
           <details>
@@ -1400,6 +1444,7 @@
       <a href="#display-types">Display types</a>
       <a href="#use-cases">Use cases</a>
       <a href="#workflow">Workflow</a>
+      <a href="#csv-refresh">CSV refresh</a>
       <a href="#screenshots">Screenshots</a>
       <a href="demo.html">Demo</a>
       <a href="/blog/">Blog</a>
