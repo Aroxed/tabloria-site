@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Refresh a WordPress CSV Catalog with SFTP and a Schedule | Tabloria</title>
+  <meta name="description" content="Keep a WordPress CSV catalog current: upload a file to a private server directory by SFTP, then refresh it manually or schedule checks with Tabloria.">
+  <link rel="canonical" href="https://tabloria.site/blog/refresh-csv-wordpress-sftp/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Refresh a WordPress CSV Catalog with SFTP and a Schedule | Tabloria">
+  <meta property="og:description" content="Connect a private server CSV to Tabloria and choose manual or scheduled refreshes.">
+  <meta property="og:url" content="https://tabloria.site/blog/refresh-csv-wordpress-sftp/">
+  <style>
+    :root{--bg:#f8f7ff;--ink:#171526;--muted:#5f5a70;--line:#ddd8f5;--brand:#3525d3;--soft:#f1efff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65}
+    a{color:var(--brand)}.wrap{width:min(1100px,calc(100% - 40px));margin:auto}.nav{background:#ffffffeb;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}.nav-inner{min-height:70px;display:flex;justify-content:space-between;align-items:center;gap:20px}.brand{font-size:20px;font-weight:800;letter-spacing:-.03em;text-decoration:none}.nav-links{display:flex;gap:22px;align-items:center;font-size:14px;font-weight:650}.nav-links a{text-decoration:none}.button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border-radius:12px;background:var(--brand);color:#fff;text-decoration:none;font-weight:750}.button.secondary{background:#fff;color:var(--brand);border:1px solid var(--line)}
+    .hero{padding:76px 0 52px;background:radial-gradient(circle at 85% 5%,#e6e1ff,transparent 38%),var(--bg)}.eyebrow{display:inline-block;color:var(--brand);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.hero h1{font-size:clamp(40px,5.4vw,64px);line-height:1.02;letter-spacing:-.06em;max-width:850px;margin:16px 0 20px}.lede{color:var(--muted);font-size:20px;max-width:760px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+    .layout{display:grid;grid-template-columns:minmax(0,760px) minmax(0,1fr);gap:34px;align-items:start;padding:16px 0 80px}.content,.toc{min-width:0;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 14px 36px #2720710c}.content{padding:40px}.content h2{font-size:30px;line-height:1.16;letter-spacing:-.04em;margin:38px 0 14px}.content h2:first-child{margin-top:0}.content h3{font-size:21px;margin:26px 0 8px}.content p{margin:0 0 18px}.content li{margin:9px 0}.content ol,.content ul{padding-left:24px}.content code{background:var(--soft);padding:2px 5px;border-radius:5px;font-size:.94em;overflow-wrap:anywhere}.content pre{max-width:100%;background:#1b1830;color:#f6f4ff;padding:18px;border-radius:14px;overflow:auto}.content pre code{background:none;padding:0}.note{padding:20px;border-radius:16px;background:var(--soft);border:1px solid var(--line);margin:24px 0}.toc{padding:22px;position:sticky;top:90px}.toc strong{display:block;margin-bottom:10px}.toc a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;font-size:14px}.footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:14px}
+    @media(max-width:850px){.layout{grid-template-columns:minmax(0,1fr)}.toc{position:static;grid-row:1}.nav-links{gap:12px}.nav-links .optional{display:none}}@media(max-width:540px){.wrap{width:min(100% - 28px,1100px)}.content{padding:24px}.hero{padding:48px 0 32px}.button{width:100%}.nav-links .button{width:auto}.actions{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="nav"><div class="wrap nav-inner"><a class="brand" href="/">Tabloria</a><nav class="nav-links" aria-label="Main navigation"><a class="optional" href="/demo.html">Demo</a><a class="optional" href="/blog/">Guides</a><a class="button" href="https://wordpress.org/plugins/tabloria-searchable-displays/">Get Tabloria</a></nav></div></header>
+  <main>
+    <section class="hero"><div class="wrap"><span class="eyebrow">CSV catalog updates</span><h1>Refresh a WordPress CSV catalog with SFTP and a schedule</h1><p class="lede">Keep a supplier catalog, directory, or listing up to date by replacing a CSV file on your server. Tabloria can refresh it when you click a button or check it on a schedule.</p><div class="actions"><a class="button" href="#setup">Set up a server CSV</a><a class="button secondary" href="/demo.html">View the catalog demo</a></div></div></section>
+    <div class="wrap layout">
+      <article class="content">
+        <h2 id="how-it-works">How it works</h2>
+        <p>First, create a Tabloria Display from a CSV and publish it on a WordPress page. Then put an updated CSV in a private directory on the <strong>same server as WordPress</strong>. In the Display’s <strong>Data Source</strong> tab, point Tabloria at that filename.</p>
+        <p>SFTP is how you transfer the file to your hosting account. Tabloria reads the local file; it does not connect to a remote SFTP server or ask for your SFTP password.</p>
+        <div class="note"><strong>Version:</strong> Server CSV refresh requires Tabloria 0.2.3 or later. Check the version on your WordPress Plugins screen before following these steps. The WordPress.org listing may serve an earlier version until the 0.2.3 update is published.</div>
+
+        <h2 id="setup">1. Prepare a private import directory</h2>
+        <p>The default directory is <code>tabloria-imports</code> beside your WordPress installation. For example, when WordPress is in <code>/home/account/public_html</code>, create <code>/home/account/tabloria-imports</code>. The PHP process running WordPress needs read access.</p>
+        <p>Keep the directory outside your public website directory. If your host uses a different layout, set a private absolute path in <code>wp-config.php</code>:</p>
+        <pre><code>define( 'TABLORIA_IMPORT_DIR', '/home/account/tabloria-imports' );</code></pre>
+        <p>Put <code>catalog.csv</code> there by SFTP. When replacing it later, upload as <code>catalog-uploading.csv</code> and rename it to <code>catalog.csv</code> only after the transfer finishes. This prevents a scheduled check from reading a partial file.</p>
+
+        <h2 id="connect">2. Connect the CSV to a Display</h2>
+        <ol>
+          <li>Open an existing Tabloria Display or create one by uploading a CSV.</li>
+          <li>Open <strong>Data Source → CSV file on this server</strong>.</li>
+          <li>Enter the filename relative to the private directory, such as <code>catalog.csv</code> or <code>supplier/catalog.csv</code>.</li>
+          <li>Click <strong>Refresh now</strong> to import the file and verify that its headers still match your saved Display fields.</li>
+        </ol>
+        <p>Every Display that uses the same source receives the new rows. A failed import leaves the previous rows available.</p>
+
+        <h2 id="schedule">3. Choose manual or automatic refresh</h2>
+        <p>For manual updates, leave <strong>Refresh automatically</strong> off and click <strong>Refresh now</strong> after each upload. For automatic updates, enable it, choose every 6 hours, 12 hours, day, or week, set the start time, and click <strong>Save source settings</strong>. Weekly checks also have a weekday setting.</p>
+        <p>Times follow the timezone under <strong>WordPress → Settings → General</strong>. A 6-hour schedule starting at 03:00 aims for 03:00, 09:00, 15:00, and 21:00. The Data Source tab shows the last check, last success, next planned run, and latest error. Scheduled checks skip an unchanged file.</p>
+        <div class="note"><strong>Timing:</strong> Tabloria uses WP-Cron. WordPress starts scheduled work when the site receives a visit, so a quiet site may refresh later than the selected time. For precise timing, configure your host’s scheduler to trigger WordPress cron.</div>
+
+        <h2 id="faq">Common questions</h2>
+        <h3>Can I paste an SFTP URL or credentials?</h3>
+        <p>No. Enter a relative filename for a CSV already on the WordPress server. Tabloria does not store SFTP credentials.</p>
+        <h3>What happens if the new CSV has an error?</h3>
+        <p>Tabloria rejects malformed files and replacements that remove existing column keys. The previous catalog remains available, and the Data Source tab shows the error.</p>
+        <h3>Can the CSV live in public uploads?</h3>
+        <p>No. Use a private directory outside the public website directory. Tabloria rejects public import directories and files that resolve outside the private directory.</p>
+        <p>For implementation details, see the <a href="https://github.com/Aroxed/Tabloria/blob/master/tabloria-searchable-displays/docs/SERVER-CSV-SYNC.md">server CSV documentation on GitHub</a>.</p>
+      </article>
+      <aside class="toc" aria-label="On this page"><strong>On this page</strong><a href="#how-it-works">How it works</a><a href="#setup">Private directory</a><a href="#connect">Connect a Display</a><a href="#schedule">Refresh schedule</a><a href="#faq">Common questions</a></aside>
+    </div>
+  </main>
+  <footer class="footer"><div class="wrap">Tabloria · <a href="/">Home</a> · <a href="/demo.html">Catalog demo</a> · <a href="/blog/">More guides</a></div></footer>
+</body>
+</html>
